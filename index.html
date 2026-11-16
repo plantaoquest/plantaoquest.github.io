@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#141a17">
+  <meta name="description" content="Plantão Quest: um RPG de estudo em pixel art para estudantes de medicina. Escolha um tema e pratique na Vila Murici.">
+  <title>Plantão Quest · Plantão na Vila</title>
+  <link rel="stylesheet" href="assets/fontes/fontes.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="assets/icone-192.png">
+  <link rel="apple-touch-icon" href="assets/icone-192.png">
+  <link rel="stylesheet" href="game.css">
+  <script src="data/acervo.js" defer></script>
+  <script src="data/cases.js" defer></script>
+  <script src="data/personagens.js" defer></script>
+  <script src="data/mapas.js" defer></script>
+  <script src="data/npcs.js" defer></script>
+  <script src="js/art.js" defer></script>
+  <script src="js/sprites.js" defer></script>
+  <script src="js/tiles.js" defer></script>
+  <script src="js/core.js" defer></script>
+  <script src="js/missoes.js" defer></script>
+  <script src="js/audio.js" defer></script>
+  <script src="js/dialogo.js" defer></script>
+  <script src="js/personagem.js" defer></script>
+  <script src="js/mundo.js" defer></script>
+  <script src="js/vila.js" defer></script>
+  <script src="js/ubs.js" defer></script>
+  <script src="js/atividades.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script>
+    // Modo offline: guarda o jogo no navegador depois da primeira visita (só funciona em http/https, não em file://).
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+  </script>
+</head>
+<body data-view="start">
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M8 2h8v6h6v8h-6v6H8v-6H2V8h6z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5c-2-2-5-2-9-2v15c4 0 7 0 9 2 2-2 5-2 9-2V3c-4 0-7 0-9 2Zm0 0v15M6 7h3m-3 4h3m6-4h3m-3 4h3"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3zm13 0a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3zm13 1 5 5m0-5-5 5"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13 2-8 12h6l-1 8 9-12h-6z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M19 10c0 5-7 10-7 10S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v7a5 5 0 0 1-10 0V4Zm0 2H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4m-5 3v4m-5 0h10"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4h16v12h-8l-5 4v-4H4zM8 10h.01m4 0h.01m4 0h.01"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="5"/><path d="m14 14 5 5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15M5 19l8-8"/></symbol>
+    <symbol id="i-sword" viewBox="0 0 24 24"><path d="M14 4h6v6L9 21l-3-3L17 7M5 15l4 4M3 21l3-3"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14m6-12v14"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="currentColor" stroke="none"/><path d="M12 8v8M9.5 10h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4" stroke="#5f4a14"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="shell header-content">
+      <a class="brand" href="./index.html" id="brand" aria-label="Plantão Quest, ir para a vila">
+        <span class="brand-icon"><svg class="icon"><use href="#i-cross"/></svg></span>
+        <span><strong>PLANTÃO<span class="brand-accent"> QUEST</span></strong><small>VILA MURICI</small></span>
+      </a>
+      <div class="header-actions">
+        <button type="button" class="avatar-btn" id="avatar-btn" hidden><canvas id="avatar-canvas" width="34" height="34"></canvas><b id="avatar-level">Nv 1</b></button>
+        <button type="button" class="toolbar-button theme-chip" id="theme-chip" hidden aria-label="Trocar tema"><svg class="icon"><use href="#i-list"/></svg><span class="hide-sm">Tema:</span> <b id="theme-chip-name"></b></button>
+        <span class="toolbar-button pomo-chip" id="pomo-chip" hidden><svg class="icon"><use href="#i-clock"/></svg><b></b></span>
+        <span class="xp-chip" title="Experiência"><svg class="icon"><use href="#i-bolt"/></svg><strong id="total-xp">0 XP</strong></span>
+        <span class="xp-chip coin-chip" title="Moedas"><svg class="icon"><use href="#i-coin"/></svg><strong id="coin-count">0</strong><span class="sr-only"> moedas</span></span>
+        <button class="toolbar-button sound-button" id="sound" type="button" aria-label="Som" aria-pressed="false" title="Som"><svg class="icon"><use href="#i-mute"/></svg></button>
+        <button class="toolbar-button" id="open-journal" type="button" aria-label="Diário"><svg class="icon"><use href="#i-book"/></svg> <span class="hide-sm">Diário</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <!-- 1. Entrada: escolha do tema -->
+    <section class="view" id="view-start" aria-labelledby="start-title">
+      <div class="start-hero">
+        <canvas id="start-canvas" class="pixel-canvas" width="640" height="360" aria-hidden="true"></canvas>
+        <canvas id="start-fx" class="pixel-canvas fx-layer" width="640" height="360" aria-hidden="true"></canvas>
+        <div class="start-panel">
+          <div class="frame-tag">VILA MURICI · RPG CLÍNICO</div>
+          <h1 id="start-title" class="pixel-title" tabindex="-1">Seu plantão vira <span>aventura.</span></h1>
+          <form id="start-form" class="search-row" role="search">
+            <label for="start-search">O que você quer estudar hoje?</label>
+            <div class="search-field">
+              <input id="start-search" type="search" autocomplete="off" placeholder="Ex.: dengue, diarreia, tuberculose…">
+              <button type="submit" class="primary">Entrar na vila</button>
+            </div>
+          </form>
+          <div class="chip-row" id="start-chips" aria-label="Temas do acervo"></div>
+          <div class="theme-results" id="start-results" aria-live="polite"></div>
+          <div class="resume-row" id="start-resume"></div>
+          <p class="tiny">O tema escolhido muda os pacientes, a aula, a horta, o lago e a gruta. Simulação educacional com personagens fictícios, complementar à formação clínica.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1b. Criação de personagem (conteúdo em js/personagem.js) -->
+    <section class="view" id="view-personagem" aria-label="Criação de personagem" hidden></section>
+
+    <!-- 2. Praça -->
+    <section class="view" id="view-vila" aria-labelledby="vila-title" hidden>
+      <div class="view-head">
+        <div class="kicker"><span class="kicker-mark"></span> <span id="vila-kicker">VILA MURICI</span></div>
+        <h1 class="view-title" id="vila-title" tabindex="-1">A vila</h1>
+      </div>
+      <div class="split">
+        <section class="map-panel" aria-labelledby="vila-map-heading">
+          <header class="panel-header map-header">
+            <h2 id="vila-map-heading"><svg class="icon"><use href="#i-pin"/></svg> Vila Murici</h2>
+            <span class="live"><span></span> DIA DE PLANTÃO</span>
+          </header>
+          <div class="scene world-scene" id="vila-scene" tabindex="0" role="application" aria-roledescription="mundo do jogo" aria-label="Mundo da Vila Murici. WASD ou setas para andar, E para interagir, M para o mapa, Esc para o menu." aria-describedby="vila-hint">
+            <canvas id="world-canvas" class="world-canvas" width="320" height="180"></canvas>
+            <div class="hud" id="world-hud">
+              <div class="hud-region" aria-live="polite"><small id="hud-map">VILA MURICI</small><strong id="hud-region-name">Praça Central</strong></div>
+              <div class="hud-buttons">
+                <button type="button" class="hud-btn sound-cta" id="hud-sound" data-hud="sound" aria-label="Ativar som e música"><svg class="icon"><use href="#i-mute"/></svg><span>Ativar som</span></button>
+                <button type="button" class="hud-btn" data-hud="inventory" aria-label="Inventário (cesto)" title="Inventário"><svg class="icon"><use href="#i-bag"/></svg></button>
+                <button type="button" class="hud-btn" data-hud="map" aria-label="Mapa da vila (M)" title="Mapa (M)"><svg class="icon"><use href="#i-map"/></svg></button>
+                <button type="button" class="hud-btn" data-hud="menu" aria-label="Menu e configurações (Esc)" title="Menu (Esc)"><svg class="icon"><use href="#i-menu"/></svg></button>
+              </div>
+              <button type="button" class="hud-quest" data-hud="quest" aria-label="Missão atual: mostrar o caminho"><small>MISSÃO</small><span id="hud-quest-text"></span></button>
+              <canvas id="vila-minimap" width="192" height="128" title="Minimapa: toque para andar até lá"></canvas>
+              <div class="world-prompt" id="world-prompt" hidden></div>
+              <div class="world-toast" id="world-toast" hidden></div>
+              <div class="touch-pad" id="touch-pad" aria-label="Controles de toque">
+                <div class="dpad">
+                  <button type="button" data-pad="up" aria-label="Andar para cima">▲</button>
+                  <button type="button" data-pad="left" aria-label="Andar para a esquerda">◀</button>
+                  <button type="button" data-pad="right" aria-label="Andar para a direita">▶</button>
+                  <button type="button" data-pad="down" aria-label="Andar para baixo">▼</button>
+                </div>
+                <button type="button" class="pad-act" id="pad-act" aria-label="Interagir">E</button>
+              </div>
+            </div>
+            <div class="world-overlay" id="world-map" role="dialog" aria-label="Mapa da Vila Murici" hidden>
+              <div class="overlay-card map-card">
+                <header><strong>Mapa da Vila Murici</strong><button type="button" id="world-map-close" class="hud-btn" aria-label="Fechar mapa">✕</button></header>
+                <canvas id="world-map-canvas" width="384" height="256" title="Toque numa região descoberta para andar até lá"></canvas>
+                <p class="map-legend" id="world-map-legend"></p>
+              </div>
+            </div>
+            <div class="world-overlay" id="world-menu" role="dialog" aria-label="Menu e configurações" hidden>
+              <div class="overlay-card menu-card">
+                <header><strong>Menu</strong><button type="button" class="hud-btn" data-menu="close" aria-label="Voltar ao jogo">✕</button></header>
+                <fieldset><legend>Zoom da câmera</legend>
+                  <label><input type="radio" name="zoom" value="perto"> Perto</label>
+                  <label><input type="radio" name="zoom" value="medio"> Médio</label>
+                  <label><input type="radio" name="zoom" value="longe"> Longe</label>
+                </fieldset>
+                <fieldset><legend>Áudio</legend>
+                  <label class="row"><input type="checkbox" id="opt-sound"> Som ligado</label>
+                  <label class="slider">Música <input type="range" id="opt-music" min="0" max="100" step="5"></label>
+                  <label class="slider">Efeitos <input type="range" id="opt-sfx" min="0" max="100" step="5"></label>
+                  <label class="slider">Ambiente <input type="range" id="opt-amb" min="0" max="100" step="5"></label>
+                </fieldset>
+                <div class="menu-actions">
+                  <button type="button" class="secondary" data-menu="map">Mapa (M)</button>
+                  <button type="button" class="secondary" data-menu="journal">Diário</button>
+                  <button type="button" class="secondary" data-menu="theme">Trocar tema</button>
+                  <button type="button" class="primary" data-menu="close">Voltar ao jogo</button>
+                </div>
+                <p class="menu-help"><kbd>WASD</kbd>/<kbd>setas</kbd> andar · <kbd>E</kbd> interagir · <kbd>M</kbd> mapa · <kbd>Esc</kbd> menu · clique ou toque no chão para ir até lá</p>
+              </div>
+            </div>
+          </div>
+          <div class="map-controls">
+            <span class="desktop-controls"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>ou</span> <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> <span>Mover</span> <kbd>E</kbd> <span>Interagir</span> <kbd>M</kbd> <span>Mapa</span> <kbd>Esc</kbd> <span>Menu</span></span>
+            <span class="touch-controls">Use o direcional e o botão E, ou toque no chão para andar</span>
+          </div>
+          <div class="quest"><div class="quest-icon"><svg class="icon"><use href="#i-pin"/></svg></div><div><small>NA VILA</small><strong id="vila-hint" aria-live="polite">Ande pela vila: WASD ou setas, E para interagir, M para o mapa e Esc para o menu.</strong></div></div>
+        </section>
+        <aside class="activity-side" id="vila-panel"></aside>
+      </div>
+    </section>
+
+    <!-- 3. Posto: quadro de plantões -->
+    <section class="view" id="view-ubs" aria-labelledby="ubs-title" hidden>
+      <div class="view-head">
+        <button type="button" class="toolbar-button back-button" data-go="vila"><svg class="icon"><use href="#i-back"/></svg> Vila</button>
+        <div class="kicker"><span class="kicker-mark"></span> POSTO DE SAÚDE <span class="kicker-slash">/</span> PLANTÕES</div>
+        <h1 class="view-title" id="ubs-title" tabindex="-1">Quadro de <span>plantões</span><i aria-hidden="true">.</i></h1>
+        <div class="theme-line"><button type="button" class="theme-switch" data-open-theme><svg class="icon"><use href="#i-list"/></svg> Tema: <b id="ubs-theme"></b> · trocar</button></div>
+      </div>
+      <div class="split">
+        <section class="map-panel" aria-label="Posto de saúde">
+          <header class="panel-header map-header"><h2><svg class="icon"><use href="#i-pin"/></svg> UBS Vila Murici</h2><span class="live"><span></span> <b id="ubs-banner"></b></span></header>
+          <div class="map map-static"><img class="map-art" src="assets/ubs.png" alt="Ilustração em pixel art da UBS da Vila Murici: recepção com cadeiras, consultório com maca e janelas para o rio." draggable="false"><div class="map-shade" aria-hidden="true"></div><span class="map-tag">RECEPÇÃO <b>·</b> CONSULTÓRIO</span></div>
+          <div class="upgrades-box" id="ubs-upgrades"></div>
+        </section>
+        <section class="case-list-panel" aria-labelledby="case-list-heading">
+          <h2 class="list-heading" id="case-list-heading"><svg class="icon"><use href="#i-list"/></svg> Pacientes da vila</h2>
+          <ol class="case-list" id="case-list"></ol>
+        </section>
+      </div>
+    </section>
+
+    <!-- 4. Consulta -->
+    <section class="view" id="view-case" aria-labelledby="chapter-title" hidden>
+      <section class="intro">
+        <div>
+          <button class="toolbar-button back-button" id="back-ubs" type="button"><svg class="icon"><use href="#i-back"/></svg> Plantões</button>
+          <div class="kicker"><span class="kicker-mark"></span> <span id="case-kicker">PLANTÃO 001</span> <span class="kicker-slash">/</span> VILA MURICI</div>
+          <h1 id="chapter-title" tabindex="-1"></h1>
+          <p id="case-lede"></p>
+        </div>
+        <div class="chapter-meta"><span><svg class="icon"><use href="#i-clock"/></svg> <b id="case-minutes">5</b>&nbsp;MIN</span><span class="specialty" id="case-specialty">PEDIATRIA</span></div>
+      </section>
+      <div class="game-layout">
+        <section class="map-panel" aria-labelledby="map-heading">
+          <header class="panel-header map-header"><h2 id="map-heading"><svg class="icon"><use href="#i-pin"/></svg> UBS Vila Murici</h2><span class="live"><span></span> EM PLANTÃO</span></header>
+          <div class="map" id="map" tabindex="0" role="group" aria-label="Mapa da UBS" aria-describedby="map-instructions">
+            <img class="map-art" src="assets/ubs.png" alt="" draggable="false">
+            <div class="map-shade" aria-hidden="true"></div>
+            <span class="map-tag" id="map-tag">01 <b>·</b> UNIDADE DE SAÚDE</span>
+            <div class="sprite companion" id="companion" aria-hidden="true" hidden><canvas id="companion-sprite" width="18" height="26"></canvas></div>
+            <div class="sprite patient" id="patient" aria-hidden="true"><canvas id="patient-sprite" width="18" height="26"></canvas></div>
+            <div class="sprite player" id="player" aria-hidden="true"><canvas id="player-sprite" width="18" height="26"></canvas></div>
+            <button class="waypoint" id="waypoint" type="button" aria-label="Interagir na recepção"><span class="waypoint-icon"><svg class="icon"><use href="#i-chat"/></svg></span><span class="waypoint-label" id="waypoint-label">Recepção</span></button>
+            <div class="map-caption" aria-hidden="true"><span></span> VILA MURICI <b>·</b> TARDE</div>
+          </div>
+          <div class="map-controls" id="map-instructions">
+            <span class="desktop-controls"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <span>ou</span> <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> <span>Mover</span></span>
+            <span class="touch-controls">Toque no chão para mover</span>
+            <span class="desktop-controls"><kbd>E</kbd> <span>Interagir</span></span>
+            <span class="touch-controls">Toque no marcador para interagir</span>
+          </div>
+          <div class="quest" aria-live="polite"><div class="quest-icon"><svg class="icon"><use href="#i-bolt"/></svg></div><div><small>OBJETIVO DO PLANTÃO</small><strong id="objective"></strong></div><span class="quest-count" id="quest-count">0/4</span></div>
+        </section>
+        <section class="chart" aria-labelledby="chart-heading">
+          <header class="panel-header chart-header"><h2 id="chart-heading"><svg class="icon"><use href="#i-book"/></svg> Prontuário</h2><span class="case-id">CASO <b id="case-number">#001</b></span></header>
+          <div class="chart-body"><ol class="steps" id="steps" aria-label="Etapas do atendimento"></ol><div id="case-panel"></div></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- 5 a 8. Atividades (conteúdo gerado em js/atividades.js) -->
+    <section class="view" id="view-biblioteca" aria-label="Biblioteca" hidden></section>
+    <section class="view" id="view-horta" aria-label="Horta e lago" hidden></section>
+    <section class="view" id="view-gruta" aria-label="Gruta Velha" hidden></section>
+    <section class="view" id="view-mural" aria-label="Quadro de avisos" hidden></section>
+
+    <footer class="footer">
+      <span>PLANTÃO QUEST <b>·</b> Simulação educacional com personagens fictícios. Confira sempre as fontes.</span>
+      <span><span id="save-indicator" class="save-dot"></span> <span id="save-label">Progresso salvo neste navegador</span></span>
+    </footer>
+  </main>
+
+  <dialog class="journal" id="journal" aria-labelledby="journal-heading">
+    <header class="panel-header chart-header">
+      <h2 id="journal-heading"><svg class="icon"><use href="#i-book"/></svg> Diário de plantão</h2>
+      <form method="dialog"><button class="toolbar-button" type="submit" aria-label="Fechar diário"><svg class="icon"><use href="#i-close"/></svg></button></form>
+    </header>
+    <div class="journal-body" id="journal-body"></div>
+  </dialog>
+
+  <dialog class="journal theme-dialog" id="theme-dialog" aria-labelledby="theme-heading">
+    <header class="panel-header chart-header">
+      <h2 id="theme-heading"><svg class="icon"><use href="#i-list"/></svg> Escolher tema</h2>
+      <form method="dialog"><button class="toolbar-button" type="submit" aria-label="Fechar"><svg class="icon"><use href="#i-close"/></svg></button></form>
+    </header>
+    <div class="journal-body">
+      <label class="field-label" for="theme-search">Buscar no acervo</label>
+      <input id="theme-search" type="search" autocomplete="off" placeholder="Ex.: dengue, tosse, desidratação">
+      <div class="theme-results" id="theme-results" aria-live="polite"></div>
+      <p class="muted small">O progresso de cada tema fica salvo. Ao voltar a um tema, você continua de onde parou.</p>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
