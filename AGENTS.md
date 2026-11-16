@@ -38,5 +38,5 @@ fica no `localStorage` do navegador. Funciona offline depois da 1ª visita (serv
 4. Rode `node ferramentas/atualizar-sw.js` e teste no navegador.
 
 ## Publicação
-- GitHub Pages pelo workflow `.github/workflows/publicar.yml` (push na `main` publica sozinho).
+- GitHub Pages em https://plantaoquest.github.io/ pelo workflow `.github/workflows/publicar.yml` (push na `main` publica sozinho).
 - Também funciona em Netlify Drop ou Cloudflare Pages arrastando a pasta. Não precisa de servidor ligado.

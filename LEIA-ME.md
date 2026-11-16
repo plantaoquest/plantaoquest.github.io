@@ -21,7 +21,7 @@ de cada jogador fica salvo no navegador dele.
 1. Crie uma conta em github.com e um repositório **público** chamado `plantao-quest`.
 2. No Antigravity, peça: *"inicialize o git, faça o commit e envie para github.com/SEU-USUARIO/plantao-quest na branch main"*.
 3. No GitHub: **Settings → Pages → Source: GitHub Actions**.
-4. Em 1–2 minutos o jogo estará em `https://SEU-USUARIO.github.io/plantao-quest/`.
+4. Em 1–2 minutos o jogo estará em `https://plantaoquest.github.io/`.
 5. Toda vez que você mudar algo e enviar (push), o site se atualiza sozinho.
 
 ### Opção B — Netlify Drop (mais rápida, sem Git)
