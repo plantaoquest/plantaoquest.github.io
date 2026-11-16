@@ -17,6 +17,7 @@ fica no `localStorage` do navegador. Funciona offline depois da 1ª visita (serv
 - `data/cases.js` — **casos clínicos** da UBS (cada um aponta para um tema pelo campo `theme`).
 - `data/npcs.js` — moradores e falas; `data/mapas.js` — mapas em tiles; `data/personagens.js` — retratos.
 - `js/core.js` — estado, salvamento, XP/moedas (`PQ.grant`), sorteio de questões (`PQ.pickQuestion`).
+- `js/contas.js` — contas de jogador (nome + PIN, por navegador) e código de progresso para trocar de aparelho. Carrega ANTES de `core.js`.
 - `js/missoes.js` — missões do dia e sequência. Eventos: `PQ.missionEvent('answer'|'case'|'lesson'|'cave'|'residente')`.
 - `js/mundo.js` — mapa andável, diálogos, quiz com moradores. `js/vila.js` — painel lateral e "próxima ação".
 - `js/ubs.js` — consulta em 4 etapas. `js/atividades.js` — biblioteca, horta, lago, gruta.

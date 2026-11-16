@@ -179,7 +179,9 @@
   function save() {
     if (canSave) {
       try {
-        localStorage.setItem(KEY, JSON.stringify(state));
+        const json = JSON.stringify(state);
+        localStorage.setItem(KEY, json);
+        window.PQContas?.espelhar(json);
       } catch {
         canSave = false;
       }
